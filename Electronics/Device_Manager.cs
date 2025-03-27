@@ -162,6 +162,7 @@ public class Device_Manager
         if (Devices.Count >= MaxNumberOfDevice)
         {
             Console.WriteLine("BUY 100 DOLLARS FOR MORE DEVICE SPACE");
+            return;
         }
         
         Devices.Add(device);
