@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Electronics;
+using Models;
 using RestApi.DTO;
 
 namespace RestApi.Controllers

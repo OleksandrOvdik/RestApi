@@ -1,4 +1,4 @@
-﻿namespace Electronics;
+﻿namespace Models;
 
 interface IPowerNotifier
 {

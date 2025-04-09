@@ -1,4 +1,4 @@
-﻿namespace Electronics;
+﻿namespace Models;
 // Personal_Computer -> P
 public class Personal_Computer : Device
     

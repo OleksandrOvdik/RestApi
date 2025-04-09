@@ -1,4 +1,4 @@
-﻿namespace Electronics;
+﻿namespace Models;
 // SmartWatches -> SW
 public class SmartWatches : Device, IPowerNotifier
 {

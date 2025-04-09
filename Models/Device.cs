@@ -1,5 +1,5 @@
-﻿
-
+﻿namespace Models;
+    
 public class Device
 {
     public string ID { get; set; }

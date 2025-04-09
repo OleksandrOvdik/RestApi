@@ -1,4 +1,6 @@
-﻿namespace Electronics;
+﻿using Models;
+
+namespace Electronics;
 
 public class Device_Manager
 {

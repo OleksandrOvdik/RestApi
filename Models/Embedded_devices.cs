@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 // Embedded_devices -> ED
-namespace Electronics;
+namespace Models;
 
 public class Embedded_devices : Device
 {
