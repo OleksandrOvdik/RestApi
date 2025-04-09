@@ -10,7 +10,7 @@ public class Device
     {
         ID = id;
         Name = name;
-        IsDeviceTurned = false;
+        IsDeviceTurned = true;
     }
 
     public virtual void TurnedOn()

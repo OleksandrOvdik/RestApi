@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Electronics.Tests", "Electr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestApi", "RestApi\RestApi.csproj", "{D439A5A4-2663-4372-BB2A-9D25A23061CC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Models\Models.csproj", "{EA75272A-86BC-4AF0-B855-5D3818291743}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{D439A5A4-2663-4372-BB2A-9D25A23061CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D439A5A4-2663-4372-BB2A-9D25A23061CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D439A5A4-2663-4372-BB2A-9D25A23061CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA75272A-86BC-4AF0-B855-5D3818291743}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA75272A-86BC-4AF0-B855-5D3818291743}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA75272A-86BC-4AF0-B855-5D3818291743}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA75272A-86BC-4AF0-B855-5D3818291743}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

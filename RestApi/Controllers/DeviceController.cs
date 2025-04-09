@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Electronics;
 using RestApi.DTO;
-using Swashbuckle.AspNetCore.Annotations;
 
 namespace RestApi.Controllers
 {
@@ -23,48 +22,25 @@ namespace RestApi.Controllers
         }
 
         [HttpGet("getAllShits")]
-        public ActionResult<IEnumerable<object>> getAllShits()
+        public ActionResult<IEnumerable<DeviceDto>> getAllShits()
         {
-            var deviceDtos = new List<object>();
+            var deviceDtos = new List<DeviceDto>();
 
             foreach (var device in _devices)
             {
-                if (device is SmartWatches smartWatches)
+                deviceDtos.Add(new DeviceDto
                 {
-                    deviceDtos.Add(new
-                    {
-                        ID = device.ID,
-                        Name = device.Name,
-                        DeviceType = "SW",
-                        BatteryPercent = smartWatches.batteryPercent
-                    });
-                }
-                else if (device is Personal_Computer personalComputer)
-                {
-                    deviceDtos.Add(new
-                    {
-                        ID = device.ID,
-                        Name = device.Name,
-                        DeviceType = "P",
-                        OperatingSystem = personalComputer.OperatingSystem
-                    });
-                }
-                else if (device is Embedded_devices embeddedDevices)
-                {
-                    deviceDtos.Add(new
-                    {
-                        ID = device.ID,
-                        Name = device.Name,
-                        DeviceType = "ED",
-                        IPAddress = embeddedDevices.IPAddress,
-                        NetworkName = embeddedDevices.NetworkName   
-                    });
-                }
-            } return Ok(deviceDtos);
+                    ID = device.ID,
+                    Name = device.Name,
+                    IsDeviceTurned = device.IsDeviceTurned
+                });
+            } 
+            
+            return Ok(deviceDtos);
         }
 
         [HttpGet("GetShitByID")]
-        public ActionResult<DeviceDetailDto> getShitByID(string id)
+        public ActionResult<object> getShitByID(string id)
         {
             var device = _devices.Find(d => d.ID == id);
             
@@ -73,32 +49,47 @@ namespace RestApi.Controllers
                 return NotFound();
             }
 
-            var detailDto = new DeviceDetailDto
-            {
-                ID = device.ID,
-                Name = device.Name,
-                DeviceType = GetDeviceType(device)
-            };
-
             if (device is SmartWatches smartWatch)
             {
-                detailDto.BatteryPercent = smartWatch.batteryPercent;
+                return Ok(new
+                {
+                    ID = device.ID,
+                    Name = device.Name,
+                    IsDeviceTurned = device.IsDeviceTurned,
+                    BatteryPercent = smartWatch.batteryPercent
+                });
             }
             else if (device is Personal_Computer pc)
             {
-                detailDto.OperatingSystem = pc.OperatingSystem;
+                return Ok(new
+                {
+                    ID = device.ID,
+                    Name = device.Name,
+                    IsDeviceTurned = device.IsDeviceTurned,
+                    OperatingSystem = pc.OperatingSystem
+                });
             }
             else if (device is Embedded_devices embedded)
             {
-                detailDto.IPAddress = embedded.IPAddress;
-                detailDto.NetworkName = embedded.NetworkName;
+                return Ok(new
+                {
+                    ID = device.ID,
+                    Name = device.Name,
+                    IsDeviceTurned = device.IsDeviceTurned,
+                    IPAddress = embedded.IPAddress,
+                    NetworkName = embedded.NetworkName
+                });
             }
-
-            return Ok(detailDto);
+            return Ok(new DeviceDto
+            {
+                ID = device.ID,
+                Name = device.Name,
+                IsDeviceTurned = device.IsDeviceTurned
+            });
         }
     
         [HttpPost("CreateShit")]
-        public ActionResult<DeviceDetailDto> CreateShit(CreateDeviceDto createDto)
+        public ActionResult<object> CreateShit(CreateDeviceDto createDto)
         {
             if (_devices.Count >= MaxDevices)
             {
@@ -150,9 +141,12 @@ namespace RestApi.Controllers
 
                 _devices.Add(newDevice);
 
-                var detailDto = CreateDetailedDto(newDevice);
-                
-                return CreatedAtAction(nameof(getShitByID), new { id = detailDto.ID }, detailDto);
+                return CreatedAtAction(nameof(getShitByID), new { id = newDevice.ID }, new DeviceDto
+                {
+                    ID = newDevice.ID,
+                    Name = newDevice.Name,
+                    IsDeviceTurned = newDevice.IsDeviceTurned
+                });
             }
             catch (ArgumentException ex)
             {
@@ -263,44 +257,6 @@ namespace RestApi.Controllers
             
             _devices.Remove(device);
             return NoContent();
-        }
-
-        private string GetDeviceType(Device device)
-        {
-            if (device is SmartWatches)
-                return "SW";
-            if (device is Personal_Computer)
-                return "PC";
-            if (device is Embedded_devices)
-                return "ED";
-            
-            return "ХЗ";
-        }
-        
-        private DeviceDetailDto CreateDetailedDto(Device device)
-        {
-            var detailDto = new DeviceDetailDto
-            {
-                ID = device.ID,
-                Name = device.Name,
-                DeviceType = GetDeviceType(device)
-            };
-
-            if (device is SmartWatches smartWatch)
-            {
-                detailDto.BatteryPercent = smartWatch.batteryPercent;
-            }
-            else if (device is Personal_Computer pc)
-            {
-                detailDto.OperatingSystem = pc.OperatingSystem;
-            }
-            else if (device is Embedded_devices embedded)
-            {
-                detailDto.IPAddress = embedded.IPAddress;
-                detailDto.NetworkName = embedded.NetworkName;
-            }
-
-            return detailDto;
         }
     }
 }
